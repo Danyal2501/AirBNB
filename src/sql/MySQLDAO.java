@@ -39,21 +39,6 @@ public class MySQLDAO {
             while (rs.next()) {
                 System.out.println(rs.getString("legalName"));
             }
-            //STEP 5: Extract data from result set
-           /* while (rs.next()) {
-                //Retrieve by column name
-                int sid = rs.getInt("sid");
-                String sname = rs.getString("sname");
-                int rating = rs.getInt("rating");
-                int age = rs.getInt("age");
-
-                //Display values
-                System.out.print("ID: " + sid);
-                System.out.print(", Name: " + sname);
-                System.out.print(", Rating: " + rating);
-                System.out.println(", Age: " + age);
-            }*/
-
 
             System.out.println("Closing connection...");
             rs.close();
@@ -204,7 +189,7 @@ public class MySQLDAO {
             String query = String.format(sql, end, start, LID);
             ResultSet rs = stmt.executeQuery(query);
             rs.next();
-            //System.out.println("count: "+ rs.getInt("count"));
+
             if(rs.getInt("count")>0){
                 ret = true;
             }
@@ -228,7 +213,7 @@ public class MySQLDAO {
             String query = String.format(sql, end, start, LID);
             ResultSet rs = stmt.executeQuery(query);
             rs.next();
-            //System.out.println("count: "+ rs.getInt("count"));
+            
             if(rs.getInt("count")>0){
                 ret = true;
             }
@@ -372,8 +357,7 @@ public class MySQLDAO {
             Statement stmt = conn.createStatement();
             String query = sql;
             ResultSet rs = stmt.executeQuery(query);
-
-            //System.out.println(query);
+            
             int i=0;
             while (rs.next()) {
                 information.add(i, new ArrayList<>());
@@ -417,7 +401,6 @@ public class MySQLDAO {
             int i=0;
             while (rs.next()) {
                 information.add(i, new ArrayList<>());
-
                 information.get(i).add(rs.getString("startDay"));
                 information.get(i).add(rs.getString("endDay"));
                 i++;
@@ -463,11 +446,9 @@ public class MySQLDAO {
             String query = String.format(sql, LID);
             int rs = stmt.executeUpdate(query);
 
-
             sql = "DELETE FROM Booking WHERE listingID = %d"; //
             query = String.format(sql, LID);
             rs = stmt.executeUpdate(query);
-
 
             sql = "DELETE FROM Listing WHERE listingID = %d";
             query = String.format(sql, LID);
@@ -589,8 +570,6 @@ public class MySQLDAO {
             Statement stmt = conn.createStatement();
             String sql = "select city, count(*) as count from booking left join listing ON booking.listingID=listing.listingID WHERE startDay>='%s' AND endDay<='%s' group by city ";
             String query = String.format(sql,start, end);
-
-            //System.out.println(query);
             ResultSet rs = stmt.executeQuery(query);
 
             int i=0;
@@ -598,7 +577,6 @@ public class MySQLDAO {
                 information.add(i, new ArrayList<>());
                 information.get(i).add(rs.getString("city"));
                 information.get(i).add(rs.getInt("count"));
-
                 i++;
             }
 
@@ -620,8 +598,6 @@ public class MySQLDAO {
             Statement stmt = conn.createStatement();
             String sql = " select city, postalCode, count(*) as count from booking left join listing ON booking.listingID=listing.listingID WHERE startDay>='%s' AND endDay<='%s' group by city, postalCode";
             String query = String.format(sql, start, end);
-
-            //System.out.println(query);
             ResultSet rs = stmt.executeQuery(query);
 
             int i = 0;
@@ -651,8 +627,6 @@ public class MySQLDAO {
             Statement stmt = conn.createStatement();
             String sql = "select country, count(*) as count from listing group by country;";
             String query = sql;
-
-            //System.out.println(query);
             ResultSet rs = stmt.executeQuery(query);
 
             int i=0;
@@ -682,8 +656,6 @@ public class MySQLDAO {
             Statement stmt = conn.createStatement();
             String sql = "select country, city, count(*) as count from listing group by country, city";
             String query = sql;
-
-            //System.out.println(query);
             ResultSet rs = stmt.executeQuery(query);
 
             int i=0;
@@ -748,7 +720,6 @@ public class MySQLDAO {
             String sql = "select legalName, country, count(*) as count from listing left join users on listing.userID=users.userID group by country, legalName ORDER BY country, count desc;";
             String query = sql;
 
-            //System.out.println(query);
             ResultSet rs = stmt.executeQuery(query);
 
             int i=0;
@@ -757,8 +728,6 @@ public class MySQLDAO {
                 information.get(i).add(rs.getString("country"));
                 information.get(i).add(rs.getString("legalName"));
                 information.get(i).add(rs.getString("count"));
-
-
                 i++;
             }
 
@@ -780,8 +749,6 @@ public class MySQLDAO {
             Statement stmt = conn.createStatement();
             String sql = "select legalName, country, city, count(*) as count from listing left join users on listing.userID=users.userID group by city, legalName ORDER BY country, city, count desc";
             String query = sql;
-
-            //System.out.println(query);
             ResultSet rs = stmt.executeQuery(query);
 
             int i=0;
@@ -812,8 +779,6 @@ public class MySQLDAO {
             Statement stmt = conn.createStatement();
             String sql = "select * from (select legalName, country, a.city, count/total as percent from (select legalName, country, city, count(*) as count from listing left join users on listing.userID=users.userID group by city, legalName ORDER BY country, city, count desc) as a left join (select city, count(*) as total from listing left join users on listing.userID=users.userID group by city) as b on a.city=b.city) as a WHERE percent>0.1;";
             String query = sql;
-
-            //System.out.println(query);
             ResultSet rs = stmt.executeQuery(query);
 
             int i=0;
@@ -844,7 +809,6 @@ public class MySQLDAO {
             Statement stmt = conn.createStatement();
             String sql = "select legalName, count(*) as count from booking left join users on booking.userID=users.userID where startDay >= '%s' AND endDay <='%s' group by legalName order by count desc ";
             String query = String.format(sql, start, end);
-           // System.out.println(query);
             ResultSet rs = stmt.executeQuery(query);
 
             int i=0;
@@ -873,7 +837,6 @@ public class MySQLDAO {
             Statement stmt = conn.createStatement();
             String sql = "select legalName, city, count(*) as count from booking left join users on booking.userID=users.userID left join listing on listing.listingid=booking.listingid where startDay >= '%s' AND endDay <='%s' group by legalName, city order by city, count desc";
             String query = String.format(sql, start, end);
-            //System.out.println(query);
             ResultSet rs = stmt.executeQuery(query);
 
             int i=0;
@@ -903,8 +866,6 @@ public class MySQLDAO {
             Statement stmt = conn.createStatement();
             String sql = "select legalName, count(*) as count from booking left join users on booking.userID=users.userID where currStatus = 0 group by legalName order by count desc";
             String query = sql;
-
-            //System.out.println(query);
             ResultSet rs = stmt.executeQuery(query);
 
             int i=0;
@@ -933,8 +894,6 @@ public class MySQLDAO {
             Statement stmt = conn.createStatement();
             String sql = "select legalName, count(*) as count from booking left join listing on booking.listingID=listing.listingID left join users on users.userID=listing.userID WHERE currStatus=0 group by legalName";
             String query = sql;
-
-            //System.out.println(query);
             ResultSet rs = stmt.executeQuery(query);
 
             int i=0;
@@ -962,8 +921,6 @@ public class MySQLDAO {
             Statement stmt = conn.createStatement();
             String sql = "select AVG(price) as average from Calendar";
             String query = sql;
-
-            //System.out.println(query);
             ResultSet rs = stmt.executeQuery(query);
 
             rs.next();
@@ -988,8 +945,6 @@ public class MySQLDAO {
             Statement stmt = conn.createStatement();
             String sql = "select 1 as num, count(*) as count from listing where amenities LIKE '%1%' union select 2 as num, count(*) as count from listing where amenities LIKE '%2%' union select 3 as num, count(*) as count from listing where amenities LIKE '%3%' union select 4 as num, count(*) as count from listing where amenities LIKE '%4%' union select 5 as num, count(*) as count from listing where amenities LIKE '%5%' union select 6 as num, count(*) as count from listing where amenities LIKE '%6%' union select 7 as num, count(*) as count from listing where amenities LIKE '%7%' union select 8 as num, count(*) as count from listing where amenities LIKE '%8%' union select 9 as num, count(*) as count from listing where amenities LIKE '%9%' union select 10 as num, count(*) as count from listing where amenities LIKE '%10%' order by count desc limit 3";
             String query = sql;
-
-            //System.out.println(query);
             ResultSet rs = stmt.executeQuery(query);
 
             rs.next();
