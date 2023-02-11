@@ -72,30 +72,6 @@ INSERT INTO `calendar` VALUES (1,1,'2003-11-25','2003-12-25',300),(1,2,'2004-01-
 UNLOCK TABLES;
 
 --
--- Table structure for table `hostreiew`
---
-
-DROP TABLE IF EXISTS `hostreiew`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `hostreiew` (
-  `hostID` int NOT NULL,
-  `renter` int NOT NULL,
-  `commentWords` varchar(250) DEFAULT NULL,
-  PRIMARY KEY (`hostID`,`renter`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `hostreiew`
---
-
-LOCK TABLES `hostreiew` WRITE;
-/*!40000 ALTER TABLE `hostreiew` DISABLE KEYS */;
-/*!40000 ALTER TABLE `hostreiew` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `hostreview`
 --
 
