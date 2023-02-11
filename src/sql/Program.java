@@ -21,12 +21,9 @@ public class Program {
 
         statusTranslated.add("Cancelled");
         statusTranslated.add("Good");
-
-
         typeTranslated.add("Full House");
         typeTranslated.add("Apartment");
         typeTranslated.add("Room");
-
         featuresTranslated.add("Pool");
         featuresTranslated.add("Hot Tub");
         featuresTranslated.add("Free parking on premises");
@@ -207,8 +204,6 @@ public class Program {
                 }
             }
         }
-
-
     }
 
     public static Boolean createUser(Scanner input, MySQLDAO sql, int type) {
@@ -306,7 +301,6 @@ public class Program {
             }
         }
 
-
         input.nextLine();
         System.out.println("Country: ");
         String country = input.nextLine();
@@ -368,11 +362,10 @@ public class Program {
             int price = input.nextInt();
             input.nextLine();
 
-            //System.out.println(sql.calendarOverlap(start,end,sql.latestListID()));
             if (!sql.addCalendar(sql.latestListID(), start, end, price)) {
                 System.out.println("Error: This range overlaps with an existing availability");
             }
-            ;
+      
             System.out.println("1: Add more availabilities\n2: Done");
             String inp = input.nextLine();
             if (inp.equals("1")) {
@@ -412,7 +405,7 @@ public class Program {
             System.out.println("\nSelect an ID to manage, or any other number to go back");
             int select = Integer.parseInt(input.nextLine());
             int LID=select;
-           // System.out.println(select);
+            
             if(!ids.contains(select)){
                 cont=false;
                 break;
@@ -446,8 +439,6 @@ public class Program {
 
             System.out.println("1: Edit price\n2: Edit availability\n3: Delete availability");
             String choice = input.nextLine();
-
-            //System.out.println(Calendarids);
             int price = (int) calendar.get(Calendarids.indexOf(select)).get(3);
 
             if(choice.equals("1")){
@@ -536,7 +527,6 @@ public class Program {
             System.out.println("Within Distance (m) (MAX: 2147483647)");
             distance = input.nextInt();
             input.nextLine();
-            //sqlstatement+=String.format("ST_Distance_Sphere(point(listing.longitude,listing.latitude), point('%s','%s')) < %d",longitude,latitude,distance);
             sqlstatement+=String.format("(select *, ST_Distance_Sphere(point(longitude, latitude), point('%s','%s')) AS dist from listing) as l ",longitude,latitude);
             sortDistance=" ORDER BY dist ASC";
             searched=true;
@@ -673,19 +663,14 @@ public class Program {
             sqlstatement+=sortDistance;
         }
 
-       //System.out.println("statement: "+ sqlstatement);
-        //System.out.println(cont);
-
         while(!cont) {
             curr.clear();
             ids.clear();
             availability.clear();
             Calendarids.clear();
             booked.clear();
-            //System.out.println(sqlstatement+"::" +lattrue);
             listings = sql.getAllListings(sqlstatement, lattrue);
             System.out.println("--------------Listings--------------");
-            //System.out.println(listings);
             for (int i = 0; i < listings.size(); i++) {
                 curr = listings.get(i);
                 System.out.print("ID: "+curr.get(0)+", Host ID: " + curr.get(8).toString() + ", Longitude: " + curr.get(1) + ", Latitude: " + curr.get(2) + ", Country: " + curr.get(3) + ", City: " + curr.get(4) + ", Postal Code: " + curr.get(5) + ", Price(Starting from): $"+ curr.get(6));
@@ -755,26 +740,17 @@ public class Program {
                     sql.addBooking(uid,select,startDay,endDay,(int)curr.get(3));
                     System.out.println("--Booked successfully--");
                     break;
-
                 }
-
-
             }
-
         }
-
         return true;
     }
 
     public static Boolean getBookings(Scanner input, MySQLDAO sql, int host) {
-
-
         ArrayList<ArrayList<Object>> bookings = new ArrayList<>();
         ArrayList<Object> curr = new ArrayList<>();
         ArrayList<Integer> bookingids = new ArrayList<>();
-
-
-        // System.out.println(bookings);
+        
         Boolean cont = false;
         while (!cont) {
             bookings.clear();
@@ -863,9 +839,7 @@ public class Program {
     public static Boolean totalListing(Scanner input, MySQLDAO sql) {
         ArrayList<ArrayList<Object>> bookings = new ArrayList<>();
         ArrayList<Object> curr = new ArrayList<>();
-
-
-
+        
         System.out.println("-------------Country------------------");
 
         bookings = sql.totalListingCountry();
@@ -897,8 +871,6 @@ public class Program {
         ArrayList<ArrayList<Object>> bookings = new ArrayList<>();
         ArrayList<Object> curr = new ArrayList<>();
 
-
-
         System.out.println("------------By Country-------------------");
 
         bookings = sql.rankHostCountry();
@@ -926,8 +898,6 @@ public class Program {
     public static Boolean commercialHost(Scanner input, MySQLDAO sql) {
         ArrayList<ArrayList<Object>> bookings = new ArrayList<>();
         ArrayList<Object> curr = new ArrayList<>();
-
-
 
         System.out.println("---------------------------------");
 
